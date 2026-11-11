@@ -1,0 +1,16 @@
+{
+  "name": "이븐 스테이크",
+  "short_name": "이븐 스테이크",
+  "description": "두께 3cm 소고기를 열전달 시뮬레이션으로 이븐하게 굽는 게임",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111417",
+  "theme_color": "#c9461a",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

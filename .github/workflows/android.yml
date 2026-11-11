@@ -1,0 +1,70 @@
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - run: npm ci
+      - run: npm test
+
+      - name: Generate the Android project
+        run: |
+          npx cap add android
+          npx @capacitor/assets generate --android --iconBackgroundColor '#141518' --splashBackgroundColor '#111417'
+          npx cap sync android
+
+      - name: Set version from run number
+        run: |
+          sed -i -E "s/versionCode [0-9]+/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]+\"/versionName \"1.0.${{ github.run_number }}\"/" android/app/build.gradle
+          grep -E "versionCode|versionName" android/app/build.gradle
+
+      # 모든 빌드를 같은 키로 서명해야 폰에서 지우지 않고 업데이트할 수 있다
+      - name: Use the shared signing key
+        run: |
+          mkdir -p ~/.android
+          cp signing/debug.keystore ~/.android/debug.keystore
+
+      - name: Build APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - run: cp android/app/build/outputs/apk/debug/app-debug.apk even-steak.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: even-steak-apk
+          path: even-steak.apk
+
+      - name: Publish to the "android" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view android >/dev/null 2>&1; then
+            gh release create android --title "이븐 스테이크 Android" --latest \
+              --notes "휴대폰에서 even-steak.apk 를 내려받아 설치하세요. main 브랜치에 새 커밋이 올라갈 때마다 이 파일이 새 버전으로 바뀝니다."
+          fi
+          gh release upload android even-steak.apk --clobber

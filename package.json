@@ -1,0 +1,17 @@
+{
+  "name": "even-steak",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "두께 3cm 소고기를 열전달 시뮬레이션으로 이븐하게 굽는 게임",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "start": "python3 -m http.server 8000 --directory www"
+  },
+  "devDependencies": {
+    "@capacitor/android": "8.6.0",
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "8.6.0",
+    "@capacitor/core": "8.6.0"
+  }
+}

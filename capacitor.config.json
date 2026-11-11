@@ -1,0 +1,8 @@
+{
+  "appId": "io.github.hojung1231.evensteak",
+  "appName": "이븐 스테이크",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#111417"
+  }
+}
