@@ -1,6 +1,6 @@
 // 앱 파일을 캐시해 오프라인에서도 열리게 한다. 파일을 바꾸면 VERSION 을 올린다
-const VERSION = 'even-steak-v1';
-const FILES = ['./', 'index.html', 'style.css', 'game.js', 'physics.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png'];
+const VERSION = 'even-steak-v2';
+const FILES = ['./', 'index.html', 'style.css', 'game.js', 'physics.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png', 'fonts/Jua-Regular.woff2', 'fonts/BlackHanSans-Regular.woff2'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));

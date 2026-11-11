@@ -3,6 +3,12 @@
   "appName": "이븐 스테이크",
   "webDir": "www",
   "android": {
-    "backgroundColor": "#111417"
+    "backgroundColor": "#1d1410"
+  },
+  "plugins": {
+    "SystemBars": {
+      "hidden": true,
+      "style": "DARK"
+    }
   }
 }
